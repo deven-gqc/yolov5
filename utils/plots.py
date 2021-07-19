@@ -84,11 +84,12 @@ def plot_one_box(x, im, color=(128, 128, 128), label=None, line_thickness=3):
     n = label.split()[0] # get name of the vehicle, car truck etc.
     if n == 'car' and c1[0] <= height//2 and c1[1] >= width//2 and \
             c2[0] <= height//2 and c2[1] >= width//2:
-        cv2.rectangle(im, c1, c2, color, thickness=tl, lineType=cv2.LINE_AA)
         im2 = Image.fromarray(im)
         crop = im2.crop(c3)
         c += 1
+        # first save then draw the square
         crop.save('/content/snips/' + str(c) + '.jpg')
+        cv2.rectangle(im, c1, c2, color, thickness=tl, lineType=cv2.LINE_AA)
     if label:
         tf = max(tl - 1, 1)  # font thickness
         t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]
