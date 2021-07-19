@@ -76,7 +76,10 @@ def plot_one_box(x, im, color=(128, 128, 128), label=None, line_thickness=3):
     assert im.data.contiguous, 'Image not contiguous. Apply np.ascontiguousarray(im) to plot_on_box() input image.'
     tl = line_thickness or round(0.002 * (im.shape[0] + im.shape[1]) / 2) + 1  # line/font thickness
     c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
-    c3 = c1 + c2 # to get cordinates of both points in a single tuple
+    #expand image to get more context, allows for better predictions
+    c1_ = tuple(np.subtract(c1, (10,10)))
+    c2_ = tuple(np.add(c2, (10, 10)))
+    c3 = c1_ + c2_ # to get cordinates of both points in a single tuple
     width, height, _ = im.shape
     n = label.split()[0] # get name of the vehicle, car truck etc.
     if n == 'car' and c1[0] <= height//2 and c1[1] >= width//2 and \
